@@ -9,16 +9,21 @@ def jogar():
     enforcou = False
     acertou = False
     erros = 0
-
+    digitadas = []
     while(not enforcou and not acertou):
-        chute = input("Digite uma letra: ").strip().upper()
+        #chute = input("Digite uma letra: ").strip.upper()
+
+        chute = (ler_letra(digitadas)).upper()
+        print("\n" * 150)
         if(chute in palavra_secreta):
+            desenha_forca(erros)
             carrega_letras_certas(chute, letras_acertadas, palavra_secreta)
         else:
             erros += 1
             desenha_forca(erros)
         enforcou = erros == 7
         acertou = "_" not in letras_acertadas
+
         print(letras_acertadas)
 
     if acertou:
@@ -26,6 +31,21 @@ def jogar():
 
     else:
         imprime_mensagem_perdeu(palavra_secreta)
+
+def ler_letra(digitadas):
+    letra = ""
+    verifica = True
+    while (verifica):
+        letra = input("Digite uma letra: ").strip()
+        if(len(letra) != 1):
+            print("digite somente um caractere!")
+        elif(letra in digitadas):
+            print("Você ja digitou essa letra")
+        else:
+            verifica = False
+
+    digitadas.append(letra)
+    return letra
 
 def mensagem_inicial():
     print("*********************************")
@@ -84,6 +104,12 @@ def imprime_mensagem_perdeu(palavra_secreta):
 def desenha_forca(erros):
     print("  _______     ")
     print(" |/      |    ")
+
+    if(erros == 0):
+        print(" |            ")
+        print(" |            ")
+        print(" |            ")
+        print(" |            ")
 
     if(erros == 1):
         print(" |      (_)   ")
